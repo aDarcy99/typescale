@@ -309,7 +309,7 @@ function getCodeBlockContent(format, typescale) {
         ${typescale.map(
           (variant) =>
             `{
-          position: "${variant.position}"
+          position: "${variant.position}",
           font: "${variant.font}", 
           size: "${variant.size}px"
         }`
