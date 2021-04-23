@@ -311,7 +311,7 @@ function getCodeBlockContent(format, typescale) {
             `{
           position: "${variant.position}"
           font: "${variant.font}", 
-          size: "${variant.size}"
+          size: "${variant.size}px"
         }`
         )}
       ]`;
