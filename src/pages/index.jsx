@@ -15,6 +15,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import TypeScaleItem from "../components/TypeScaleItem/TypeScaleItem";
+import CodeBlock from "../components/CodeBlock/CodeBlock";
 
 const useStyles = makeStyles((theme) => ({
   settingsContainer: {
@@ -55,6 +56,9 @@ const useStyles = makeStyles((theme) => ({
   input: {
     margin: `${theme.spacing(1)}px 0`,
   },
+  minimizeCodeButton: {
+    margin: `${theme.spacing(1)}px 0`,
+  },
 }));
 
 const HomePage = (props) => {
@@ -64,7 +68,7 @@ const HomePage = (props) => {
   const [scale, setScale] = useState(1.333);
   const [font, setFont] = useState();
   const [typeScale, setTypeScale] = useState(getDefaultTypeScale());
-  const [expandCss, setExpandCss] = useState(false);
+  const [expandCode, setexpandCode] = useState(false);
 
   function onBaseSizeChange(Event) {
     setBaseSize(Number(Event.target.value));
@@ -77,8 +81,8 @@ const HomePage = (props) => {
   function onFontChange(Event) {
     setFont(Event.target.value);
   }
-  function onExpandCssClick() {
-    setExpandCss(!expandCss);
+  function onExpandCodeClick() {
+    setexpandCode(!expandCode);
   }
 
   function onDisplayTextClick(position) {}
@@ -226,18 +230,26 @@ const HomePage = (props) => {
               <Button
                 className={classes.resetAllButton}
                 onClick={onResetAllClick}
-                variant="contained"
+                variant="outlined"
               >
                 Reset All
               </Button>
             </Grid>
             <Divider />
-            <Collapse in={expandCss}>
-              <Box>dsafdsafdsafdsfs</Box>
-            </Collapse>
-            <Button onClick={onExpandCssClick}>
-              {expandCss ? "minimize css" : "expand css"}
+            <Button
+              className={classes.minimizeCodeButton}
+              onClick={onExpandCodeClick}
+            >
+              {expandCode ? "minimize code" : "expand code"}
             </Button>
+            <Collapse in={expandCode}>
+              <CodeBlock
+                content={[
+                  getCodeBlockContent("css", typeScale),
+                  getCodeBlockContent("jsObject", typeScale),
+                ]}
+              />
+            </Collapse>
           </Container>
         </Grid>
         <Divider orientation="vertical" flexItem />
@@ -284,3 +296,27 @@ export default HomePage;
   ----
   
 */
+
+function getCodeBlockContent(format, typescale) {
+  switch (format) {
+    case "css":
+      return `
+        //set document font-size to base size
+        
+      `;
+    case "jsObject":
+      return `[
+        ${typescale.map(
+          (variant) =>
+            `{
+          position: "${variant.position}"
+          font: "${variant.font}", 
+          size: "${variant.size}"
+        }`
+        )}
+      ]`;
+    default:
+      console.error("Code Block content requires format paramater");
+      break;
+  }
+}

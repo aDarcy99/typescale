@@ -34,15 +34,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TypeScaleItem = ({
-  size,
-  position,
-  text,
-  font,
-  idx,
-  length,
-  onDeleteButtonClick,
-}) => {
+const TypeScaleItem = (props) => {
+  const {
+    size,
+    position,
+    text,
+    font,
+    idx,
+    length,
+    onDeleteButtonClick,
+  } = props;
+
   const classes = useStyles();
 
   function renderDeleteButton() {
